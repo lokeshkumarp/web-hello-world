@@ -1,12 +1,9 @@
 node {
+  stage "Checkout"
+  git 'https://github.com/lokeshkumarp/web-hello-world.git'
+
   stage "Clean"
   sh "./gradlew clean"
-
-  stage "Compile"
-  sh "./gradlew compile"
-
-  stage "Static Analysis"
-  sh "./gradlew pmdMain"
 
   stage "Test"
   sh "./gradlew test"
@@ -14,6 +11,9 @@ node {
   stage "Package"
   sh "./gradlew assemble"
 
+  stage "Publish Junit"
+  junit '**/test-results/**/*.xml'
+
   stage "Archive"
-  archiveArtifacts "build/libs/*.war" 
+  archiveArtifacts "build/libs/*.war"
 }
